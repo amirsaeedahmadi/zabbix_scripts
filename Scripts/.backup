@@ -1,0 +1,15 @@
+set heading off
+set feedback off
+set time off
+set timing off
+column username         heading username        Format a2
+column coun_            heading count           Format 9999
+select /*+noparallel */s.inst_id,count(1) coun_ 
+from "GV$SESSION" s 
+where s.status = 'ACTIVE' 
+      and s.username is not null 
+      and s.username not in ('SYS' , 'SYSTEM' , 'CAPEX' , 'CAPEX2')
+group by s.inst_id 
+order by 1;
+exit;
+
